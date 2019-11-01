@@ -1,0 +1,22 @@
+auth:
+    body: |
+        {
+            "jsonrpc": "2.0",
+            "result": "ccaa224fb0545bcfc41bd722f0abbd21",
+            "id": 1
+        }
+    code: 200
+success:
+    body: |
+        {
+            "jsonrpc": "2.0",
+            "error": {
+                "code": -32602,
+                "message": "Invalid params.",
+                "data": "Host with the same name \"test2\" already exists."
+            },
+            "id": 1
+        }
+    header:
+        Content-Type: application/json
+    code: 200

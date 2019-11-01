@@ -1,18 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Zabbix\ValueObject;
+
+use Webmozart\Assert\Assert;
 
 class Version implements ValueObjectInterface
 {
+    /**
+     * @var string
+     */
     private $value;
 
     /**
      * Version constructor.
      *
-     * @param $value
+     * @param string $value
      */
     public function __construct(string $value)
     {
+        Assert::digits($value);
         $this->value = $value;
     }
 
@@ -21,7 +29,7 @@ class Version implements ValueObjectInterface
         return $this->value;
     }
 
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }

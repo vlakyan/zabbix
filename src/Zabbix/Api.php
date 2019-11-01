@@ -8,6 +8,7 @@ use App\Zabbix\Model\ResponseModel;
 use App\Zabbix\Request\Authorization;
 use App\Zabbix\Request\RequestInterface;
 use Symfony\Component\Serializer\Serializer;
+use Webmozart\Assert\Assert;
 
 class Api
 {
@@ -56,7 +57,7 @@ class Api
      */
     public function isAuthorized(): bool
     {
-        return !empty($this->auth);
+        return (bool) $this->auth && (bool) $this->id;
     }
 
     public function send(RequestInterface $request): ResponseModel
@@ -64,12 +65,14 @@ class Api
         $model = $request->getModel();
 
         if ($this->isAuthorized()) {
-            $model->id   = $this->id;
-            $model->auth = $this->auth;
+            $model->id   = $this->id ?: 0;
+            $model->auth = $this->auth ?: '';
         }
         $json     = $this->serializer->serialize($model, 'json');
         $response = $this->connection->send($request, $json);
+        $object   = $this->serializer->deserialize($response, ResponseModel::class, 'json');
+        Assert::isInstanceOf($object, ResponseModel::class);
 
-        return $this->serializer->deserialize($response, ResponseModel::class, 'json');
+        return $object;
     }
 }

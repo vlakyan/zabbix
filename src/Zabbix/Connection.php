@@ -7,8 +7,9 @@ namespace App\Zabbix;
 use App\Zabbix\Exception\ResponseException;
 use App\Zabbix\Request\RequestInterface;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
-use Psr\Http\Message\ResponseInterface;
 
 class Connection
 {
@@ -32,8 +33,8 @@ class Connection
      * @param RequestInterface $request
      * @param null|string      $json
      *
+     * @throws GuzzleException
      * @throws ResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return string
      */
@@ -43,18 +44,12 @@ class Connection
             RequestOptions::BODY => $json,
         ];
 
-        $response = $this->client->request($request->getMethod(), $this->url, \array_merge($options, $request->getOptions()));
+        try {
+            $response = $this->client->request($request->getMethod(), $this->url, \array_merge($options, $request->getOptions()));
 
-        if ($response instanceof ResponseInterface) {
-            $code    = $response->getStatusCode();
-            $content = $response->getBody()->getContents();
-            switch (true) {
-                case $code > 500:
-                case $code < 200:
-                    throw new ResponseException($content);
-                default:
-                    return $content;
-            }
+            return $response->getBody()->getContents();
+        } catch (RequestException $requestException) {
+            throw new ResponseException($requestException->getMessage());
         }
     }
 }

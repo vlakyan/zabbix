@@ -34,7 +34,7 @@ class ResponseModel
     public $error;
 
     /**
-     * @var null|string|array
+     * @var null|string
      */
     public $result;
 
@@ -52,12 +52,10 @@ class ResponseModel
     }
 
     /**
-     * @param array|string|null $result
+     * @param null|string $result
      */
     public function setResult($result): void
     {
         $this->result = $result;
     }
-
-
 }

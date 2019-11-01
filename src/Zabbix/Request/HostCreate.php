@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Zabbix\Request;
 
 use App\Zabbix\Model\BaseModel;

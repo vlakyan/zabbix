@@ -38,7 +38,7 @@ class BaseModel
      */
     public function __construct(ParamInterface $params)
     {
-        $this->method = $params::METHOD;
+        $this->method = $params::method();
         $this->params = $params;
     }
 }

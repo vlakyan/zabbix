@@ -12,9 +12,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * Class ValueObjectNormalizer
- *
- * @package App\Zabbix\Serializer
+ * Class ValueObjectNormalizer.
  */
 class ValueObjectNormalizer implements NormalizerInterface, DenormalizerInterface, CacheableSupportsMethodInterface
 {

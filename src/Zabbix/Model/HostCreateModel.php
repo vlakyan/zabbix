@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Zabbix\Model;
 
 class HostCreateModel implements ParamInterface
 {
-    public const METHOD = 'host.create';
+    private const METHOD = 'host.create';
 
     /**
      * @var string
@@ -25,4 +27,9 @@ class HostCreateModel implements ParamInterface
      * @var TemplateModel[]
      */
     public $templates = [];
+
+    public static function method(): string
+    {
+        return self::METHOD;
+    }
 }
